@@ -89,7 +89,7 @@ setTimeout(() => {
 ```
 
 按理说setTimeout(fn,0)应该比setImmediate(fn)快，应该只有第二种结果，为什么会出现两种结果呢？
-这是因为Node 做不到0毫秒，最少也需要1毫秒。实际执行的时候，进入事件循环以后，有可能到了1毫秒，也可能还没到1毫秒，取决于系统当时的状况。如果没到1毫秒，那么 timers 阶段就会跳过，进入 check 阶段，先执行setImmediate的回调函数。
+这是因为Node 做不到0毫秒，最少也需要1毫秒。实际执行的时候，进入事件循环以后，有可能到了[1毫秒](https://nodejs.org/api/timers.html#timers_settimeout_callback_delay_args)，也可能还没到1毫秒，取决于系统当时的状况。如果没到1毫秒，那么 timers 阶段就会跳过，进入 check 阶段，先执行setImmediate的回调函数。
 
 但是，在一种情况下可以准确判断两个方法回调的执行顺序，那就是在一个I/O事件的回调中。下面这段代码的顺序永远是固定的：
 ```js
