@@ -198,3 +198,6 @@ process.nextTick(function foo() {
 })
 ```
 事实上，现在要是你写出递归的process.nextTick，Node.js会抛出一个警告，要求你改成setImmediate。
+
+
+> 假如node版本更新到11或以上，Event Loop运行原理发生了变化，一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行微任务队列，这点就跟浏览器端一致。
