@@ -18,9 +18,6 @@
 - 对于执行顺序来说，setInterval会每隔指定的时间将注册的函数置入Event Queue，如果前面的任务耗时太久，那么同样需要等待
 - 唯一需要注意的一点是，对于setInterval(fn,ms)来说，我们已经知道不是每过ms秒会执行一次fn，而是每过ms秒，会有fn进入Event Queue。一旦setInterval的回调函数fn执行时间超过了延迟时间ms，那么就完全看不出来有时间间隔了。
 
-### Promise 与 process.nextTick(callback)
-- Promise的定义和功能本文不再赘述, 而process.nextTick(callback)类似node.js版的"setTimeout"，在事件循环的下一次循环中调用 callback 回调函数。
-
 ## 进去正题
 除了广义的同步任务和异步任务，我们对任务有更精细的定义：
 - macro-task(宏任务)：包括整体代码script，setTimeout，setInterval
