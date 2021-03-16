@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .task-list {
+      padding: 0;
+    }
+    .task-list .task-item {
+      display: flex;
+      height: 40px;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+      padding:  0 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <input id="inputRef" type="number" value="3" placeholder="输入请求数量" />
+  <button id='sendBtn'>发送</button>
+  <ul class="task-list" id="taskList"></ul>
+
+  <script type="module">
+    import LimitPromise from './tools.js'
+
+    const MAX = 3
+    const limitPromise = new LimitPromise(MAX)
+    const btnDom = document.querySelector('#sendBtn')
+    const inputDom = document.querySelector('#inputRef')
+    const taskListDom = document.querySelector('#taskList')
+    let taskItemList = document.querySelectorAll('.task-item')
+
+    const fetchApi = () => {
+      return new Promise((resolve, reject) => {
+        const randomTime = Math.ceil(Math.random() * 3) // 生成 1~3 的随机数
+        fetch(`http://localhost:7300/api/mock?randomTime=${randomTime}`, {
+          method: 'GET'
+        })
+          .then(res => res.json())
+          .then(result => {
+            resolve(result)
+          })
+          .catch(err => reject('error'))
+      })
+    }
+
+    const handleTaskComplete = (id) => {
+      const itemArr = Array.from(taskItemList)
+      const curItem = itemArr.find(item => item.dataset.taskIndex === id)
+      if (curItem) {
+        curItem.style.background = '#52C41A'
+      }
+    }
+
+    const handleSend = () => {
+      const fetchNumber = inputDom.value
+      if (!fetchNumber || fetchNumber === 0) {
+        alert('请输入数量')
+        return
+      }
+
+      let strHtml = ''
+      for (let i = 1; i <= fetchNumber; i++) {
+        strHtml += `<li class="task-item" style="background: #cecece" data-task-index='${i}'><span class="name">task ${i}</span></li>`
+      }
+      
+      taskListDom.innerHTML = strHtml
+      taskItemList = document.querySelectorAll('.task-item')
+
+      const taskHandle = async () => {
+        // 单请求
+        // for (let j = 1; j <= fetchNumber; j++) {
+        //   await fetchApi()
+        //   handleTaskComplete(`${j}`)
+        // }
+
+        // 多请求并行上传
+        // for (let j = 1; j <= fetchNumber; j++) {
+        //   fetchApi()
+        //     .then(res => {
+        //       handleTaskComplete(`${j}`)
+        //     })
+        // }
+
+        // 限制数量上传
+        for (let j = 1; j <= fetchNumber; j++) {
+          limitPromise.call(fetchApi, () => handleTaskComplete(`${j}`))
+        }
+      }
+
+      taskHandle()
+    }
+
+    btnDom.addEventListener('click', handleSend)
+  </script>
+</body>
+</html>
