@@ -4,7 +4,8 @@ let server = http.createServer()
 
 server.on('request', function (req, res) {
   const url = req.url
-  res.writeHead(200, { 'Access-Control-Allow-Origin': '*' })
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Headers', '*')
   if (url.includes('/api/mock')) {
     const number = url.split('=')[1]
     const resObj = {
