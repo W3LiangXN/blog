@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input id="fileInput" type="file">
+  <br />
+  <br />
+  <button id="uploadBtn">上传文件</button>
+  <script>
+    const fileInputDom = document.querySelector('#fileInput')
+    const uploadBtnDom = document.querySelector('#uploadBtn')
+    let needUploadFile = null // 需要上传的文件
+    const SIZE = 5 * 1024 * 1024 // 切片大小 5M一块
+    let chunkDataList = [] // 切片数组
+
+    // 封装原生 XMLHttpRequest 
+    const request = ({ url, method = "post", data, headers = {}, requestList }) => {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open(method, url)
+        Object.keys(headers).forEach(key =>
+          xhr.setRequestHeader(key, headers[key])
+        )
+        xhr.send(data)
+        xhr.onload = e => {
+          resolve({
+            data: e.target.response
+          })
+        }
+      })
+    }
+
+    
+
+    // 监听 input 变化
+    const onChange = (event) => {
+      const [file] = event.target.files
+      if (!file) return
+      needUploadFile = file
+    }
+
+    // 生成文件切片
+    const createFileChunk = (file, size = SIZE) => {
+      const fileChunkList = []
+      let cur = 0
+      while (cur < file.size) {
+        fileChunkList.push({ file: file.slice(cur, cur + size) })
+        cur += size
+      }
+      return fileChunkList
+    }
+
+    // 处理文件并上传
+    const handleUploadFile = () => {
+      if (!needUploadFile) {
+        alert('请上传文件')
+        return
+      }
+      const fileChunkList = createFileChunk(needUploadFile)
+      console.log('fileChunkList: ', fileChunkList)
+      chunkDataList = fileChunkList.map(({ file }, index) => ({
+        chunk: file,
+        hash: needUploadFile.name + "-" + index // 文件名 + 数组下标
+      }))
+      console.log('chunkDataList: ', chunkDataList)
+      uploadChunks()
+    }
+
+    // 上传切片
+    const uploadChunks = async () => {
+      const requestList = chunkDataList.map(({ chunk, hash }) => {
+          const formData = new FormData();
+          formData.append("chunk", chunk)
+          formData.append("hash", hash)
+          formData.append("filename", needUploadFile.name)
+          return { formData }
+        })
+        .map(({ formData }) =>
+          request({
+            url: "http://localhost:7400",
+            data: formData
+          })
+        )
+      console.log('requestList: ', requestList)
+      await Promise.all(requestList) // 并发切片
+
+      await mergeRequest() // 合并切片
+    }
+
+    const mergeRequest = async () => {
+      await request({
+        url: "http://localhost:7400/merge",
+        headers: {
+          "content-type": "application/json"
+        },
+        data: JSON.stringify({
+          size: SIZE,
+          filename: needUploadFile.name
+        })
+      })
+    }
+
+    fileInputDom.addEventListener('change', onChange)
+    uploadBtnDom.addEventListener('click', handleUploadFile)
+  </script>
+</body>
+</html>
