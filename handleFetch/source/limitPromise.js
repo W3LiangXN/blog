@@ -1,6 +1,6 @@
 class LimitPromise {
   constructor (max) {
-    // 异步任务“并发”上限
+    // 异步任务并发上限
     this._max = max
     // 当前正在执行的任务数量
     this._count = 0
@@ -33,7 +33,6 @@ class LimitPromise {
    * @param resolve
    * @param reject
    * @returns {Function} 返回一个任务函数
-   * @private
    */
   _createTask (caller, args, resolve, reject) {
     return () => {
