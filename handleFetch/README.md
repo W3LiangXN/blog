@@ -63,7 +63,7 @@ server.listen(7300, function() {
 }
 ```
 
-### JavaScript 代码
+### javascript 代码
 
 ```js
 const btnDom = document.querySelector('#sendBtn')
