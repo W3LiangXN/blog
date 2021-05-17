@@ -17,7 +17,6 @@ server.on('request', function (req, res) {
 
   // 解决跨域问题
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Headers', '*')
 
   if (url.includes('/api/mock')) {
     const number = url.split('=')[1]
