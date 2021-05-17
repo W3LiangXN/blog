@@ -7,7 +7,6 @@ let server = http.createServer()
 server.on('request', function (req, res) {
   const url = req.url
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Headers', '*')
 
   if (url === '/') {
     fs.readFile(path.resolve(__dirname, '../index.html'), "utf-8", function (err, data) {
