@@ -39,7 +39,7 @@ server.on('request', function (req, res) {
   if (url.includes('/api/mock')) {
     const number = url.split('=')[1]
     const resObj = {
-      msg: `randomTime 为: ${number}`
+      msg: `randomTime is: ${number}`
     }
     setTimeout(() => {
       res.end(JSON.stringify(resObj))
