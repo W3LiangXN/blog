@@ -175,7 +175,7 @@ class LimitPromise {
    */
   call (caller, cb, ...args) {
     return new Promise((resolve, reject) => {
-      const task = this._createTask(caller, args, () => { cb(); resolve }, reject)
+      const task = this._createTask(caller, args, () => { cb(); return resolve }, reject)
       if (this._count >= this._max) {
         this._taskQueue.push(task)
       } else {
