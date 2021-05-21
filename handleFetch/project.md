@@ -30,9 +30,9 @@ for (let i = 0; i < chunkPaths.length; i++) {
     })
     readStream.pipe(writeStream, { end: false })
     
-    if (i >= chunkPaths.length) {
-      writeStream.end("done")
-    }
   })
+  if (i >= chunkPaths.length - 1) {
+    writeStream.end("done")
+  }
 }
 ```
