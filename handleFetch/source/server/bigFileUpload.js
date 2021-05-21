@@ -43,24 +43,6 @@ const mergeFileChunk = async (filePath, filename, size) => {
   // 否则直接读取目录的获得的顺序可能会错乱
   chunkPaths.sort((a, b) => a.split("-")[1] - b.split("-")[1])
 
-  // 逐个顺序的去合并
-  // const writeStream = fse.createWriteStream(filePath)
-  // for (let i = 0; i < chunkPaths.length; i++) {
-  //   await new Promise((resolve, reject) => {
-  //     const readStream = fse.createReadStream(path.resolve(chunkDir, chunkPaths[i]))
-  //     readStream.on("end", () => {
-  //       // 删除临时存储的切片文件
-  //       fse.unlinkSync(path.resolve(chunkDir, chunkPaths[i]))
-  //       resolve()
-  //     })
-  //     readStream.pipe(writeStream, { end: false })
-      
-  //     if (i >= chunkPaths.length) {
-  //       writeStream.end("done")
-  //     }
-  //   })
-  // }
-
   // 并行合并
   await Promise.all(
     chunkPaths.map((chunkPath, index) =>
