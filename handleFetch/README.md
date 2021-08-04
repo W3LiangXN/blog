@@ -85,7 +85,7 @@ const fetchApi = () => {
   })
 }
 
-// 处理任务完成是事件
+// 处理任务完成时事件
 const handleTaskComplete = (id) => {
   const itemArr = Array.from(taskItemList)
   const curItem = itemArr.find(item => item.dataset.taskIndex === id)
