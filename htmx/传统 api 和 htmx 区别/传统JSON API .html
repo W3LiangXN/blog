@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>传统JSON API方式</title>
+</head>
+<body>
+    <h1>用户列表</h1>
+    <button id="loadUsers">加载用户</button>
+    <div id="userList"></div>
+
+    <script>
+        document.getElementById('loadUsers').addEventListener('click', function() {
+            fetch('http://localhost:6300/api/users')
+                .then(response => response.json())
+                .then(users => {
+                    const userList = document.getElementById('userList');
+                    userList.innerHTML = ''; // 清空现有内容
+                    
+                    // 客户端负责渲染HTML
+                    const ul = document.createElement('ul');
+                    users.forEach(user => {
+                        const li = document.createElement('li');
+                        li.textContent = `${user.name} (${user.email})`;
+                        ul.appendChild(li);
+                    });
+                    userList.appendChild(ul);
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链接和表单示例</title>
+    <style>
+        nav {
+            margin: 20px 0;
+        }
+        .nav-links a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        .nav-links a:hover {
+            color: #007bff;
+        }
+        form {
+            max-width: 400px;
+            margin: 20px 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-links">
+        <a href="#home">首页</a>
+        <a href="#about">关于我们</a>
+        <a href="#contact">联系方式</a>
+        <a href="https://www.example.com" target="_blank">外部链接</a>
+    </nav>
+
+    <form action="/submit" method="POST">
+        <div class="form-group">
+            <label for="name">姓名：</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">邮箱：</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <button type="submit">提交</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>htmx方式</title>
+    <!-- 引入htmx库 -->
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+</head>
+<body>
+    <h1>用户列表</h1>
+    
+    <!-- hx-get指定请求URL，hx-trigger指定触发事件，hx-target指定目标更新位置 -->
+    <button hx-get="http://localhost:6300/users" hx-trigger="click" hx-target="#userList">
+        加载用户
+    </button>
+    
+    <div id="userList"></div>
+</body>
+</html>
