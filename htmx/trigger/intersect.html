@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intersect 事件示例</title>
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+    <style>
+        .box {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        
+        .scroll-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 2px solid #333;
+            margin: 20px;
+        }
+        
+        .scroll-item {
+            height: 200px;
+            margin: 10px;
+            padding: 20px;
+            background-color: #e9e9e9;
+        }
+        .scroll-container-inner {
+            width: 100%;
+            height: 1000px;
+            background-color: skyblue;
+        }
+
+        #intersect-demo {
+            margin-top: 2000px; /* 确保需要滚动才能看到 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- intersect 事件示例 -->
+    <div id="intersect-demo" class="box">
+        <h3>Intersect 事件示例</h3>
+        <!-- 基本 intersect -->
+        <div 
+            class="scroll-item"
+            hx-get="/api/intersect-basic"
+            hx-trigger="intersect"
+            hx-swap="innerHTML">
+            当元素与视口相交时触发
+        </div>
+
+        <!-- 使用 threshold 的 intersect -->
+        <div 
+            class="scroll-item"
+            hx-get="/api/intersect-threshold"
+            hx-trigger="intersect threshold:0.5"
+            hx-swap="innerHTML">
+            当元素有 50% 进入视口时触发
+        </div>
+
+        <!-- 使用 root 的 intersect -->
+        <div class="scroll-container" id="custom-root">
+            <div class="scroll-container-inner"></div>
+            <div 
+                class="scroll-item"
+                hx-get="/api/intersect-root"
+                hx-trigger="intersect root:#custom-root"
+                hx-swap="innerHTML">
+                当元素与指定容器相交时触发
+            </div>
+        </div>
+    </div>
+</body>
+</html>

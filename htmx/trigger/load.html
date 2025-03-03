@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load 事件示例</title>
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+    <style>
+        .box {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        
+        .scroll-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 2px solid #333;
+            margin: 20px;
+        }
+        
+        .scroll-item {
+            height: 200px;
+            margin: 10px;
+            padding: 20px;
+            background-color: #e9e9e9;
+        }
+
+        #intersect-demo {
+            margin-top: 800px; /* 确保需要滚动才能看到 */
+        }
+    </style>
+</head>
+<body>
+    <!-- load 事件示例 -->
+    <div class="box">
+        <h3>Load 事件示例</h3>
+        <div 
+            hx-get="/api/load-example"
+            hx-trigger="load"
+            hx-swap="innerHTML">
+            正在加载...
+        </div>
+    </div>
+</body>
+</html>

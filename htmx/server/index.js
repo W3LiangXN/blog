@@ -42,4 +42,6 @@ app.get('/users', (req, res) => {
   res.send(html);
 });
 
-app.listen(6300);
+app.listen(6300, () => {
+    console.log('服务运行在 6300 端口');
+});
